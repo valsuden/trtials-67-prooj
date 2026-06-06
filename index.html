@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trials of Mastery</title>
+    <!-- Consolidated Stylesheets in head to eliminate visual lag/flashing -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/effects.css">
+    <link rel="stylesheet" href="css/banners.css">
+    <link rel="stylesheet" href="css/shop.css">
+</head>
+
+<body>
+    <!-- Start screen for audio initialization -->
+    <div id="start-screen">
+        <div id="start-screen-content">
+            Tap to start the adventure!
+        </div>
+    </div>
+
+    <!-- Audio elements -->
+    <!-- Música de lobby: sonido de mar y gaviotas -->
+    <audio id="lobby-music" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sea-waves-loop-1517.mp3" type="audio/mp3">
+    </audio>
+    <audio id="lobby-seagulls" loop>
+        <source src="https://www.orangefreesounds.com/wp-content/uploads/2015/01/Seagulls-sound.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Música de juego: tema principal -->
+    <audio id="background-music" loop>
+        <source src="https://ia903107.us.archive.org/33/items/beach-bum-by-kevin-macleod/beach-bum-by-kevin-macleod.mp3" type="audio/mp3">
+    </audio>
+
+    <audio id="correct-sound">
+        <source
+            src="https://dl.dropboxusercontent.com/scl/fi/rurdyi741m2lja9ccmxvj/Correct-Answer-Sound-Effect.mp3?rlkey=eiu254jzz26g4yqoita04ncb7&st=guya9v63"
+            type="audio/mp3">
+    </audio>
+
+    <audio id="incorrect-sound">
+        <source
+            src="https://dl.dropboxusercontent.com/scl/fi/lqwt9s6ozvfzu7mxftdqv/Error-Sound-Effect-Non-copyright-sound-effects-TCW-SoundEffects.mp3?rlkey=qyjqzt0qu2ackt33koalcfzct&st=ajpz8dad"
+            type="audio/mp3">
+    </audio>
+
+    <audio id="victory-sound">
+        <source src="https://docs.google.com/uc?export=download&id=1Xb-UHzYqt676FAhXtfjVxZ_inOCTwIx3" type="audio/mp3">
+    </audio>
+
+    <div class="container">
+        <!-- Game image - only visible on start screen -->
+        <img id="game-header-image" class="game-image"
+            src="https://i.postimg.cc/JzFDW597/068ea439b0218fdd52c1434444600b23.png" alt="Trials of Mastery">
+
+
+        <h1>Trials of Mastery</h1>
+        <p>Prove your skills and master the trials. Will you succeed?</p>
+
+        <!-- Player name input section -->
+        <div id="player-setup">
+            <select class="input-box" id="player-name-input"
+                style="width:80%; padding:10px; font-size:0.8em; background-color:#003300; color:white; border:2px solid #ffcc00; border-radius:5px; cursor:pointer; font-family:'Press Start 2P', cursive;">
+                <option value="">Select your name...</option>
+                <!-- Las opciones de estudiantes se cargarán automáticamente desde data/students.js -->
+            </select>
+            <div class="highest-score">Highest Score: <span id="highest-score">78</span></div>
+        </div>
+
+        <button id="start-btn" class="btn">START</button>
+        <button id="view-leaderboard-start" class="btn" style="margin-top:10px;">🏆 Leaderboard</button>
+
+        <div id="game" class="hidden">
+            <!-- Welcome message with player name -->
+            <div class="player-name">Good luck, <span id="player-name-display">Player</span>!</div>
+
+            <h2 id="level-title">Awakening</h2>
+            <div class="timer-circle" id="timer">60</div>
+            <div id="game-clock" style="font-size:0.8em; color:#ffcc00; margin-top:5px;"></div>
+            <div class="score-counter">Score: <span id="score">0</span></div>
+            <div class="progress-indicator">Word <span id="current-word-num">1</span>/10</div>
+            <h3 id="word-to-translate" translate="no">Word</h3>
+            <input type="text" class="input-box" id="answer" placeholder="Enter translation...">
+
+            <!-- Power-up buttons -->
+            <div class="powerup-container">
+                <button id="bonus-time-btn" class="powerup-btn">Bonus Time (+10s)</button>
+                <button id="skip-word-btn" class="powerup-btn">Skip Word</button>
+            </div>
+
+            <button id="submit-btn" class="btn">SUBMIT</button>
+            <p id="feedback"></p>
+            <!-- 🏆 Leaderboard container -->
+            <!-- 🏆 Top 3 Live -->
+            <div id="top3-display"
+                style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.3); border-radius:10px; border:2px solid #ffcc00;">
+                <h3 style="color:#ffcc00; font-size:0.8em; margin-bottom:10px;">🏆 TOP 3 🏆</h3>
+                <div id="top3-list" style="font-size:0.6em; color:#ffffff; line-height:1.8;">
+                    <p>Loading top players...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="level-complete" class="level-complete hidden">
+        <div class="level-complete-content">
+            <h2>Trial Completed!</h2>
+            <p>You have mastered this level.</p>
+            <p>Score: <span id="level-score">0</span></p>
+            <button id="next-level-btn" class="btn">NEXT TRIAL</button>
+        </div>
+    </div>
+
+    <!-- Focus Training (Tema Playa y Palmeras) -->
+    <div id="focus-training" class="ft-overlay">
+        <div class="ft-card">
+            <div class="ft-card-content">
+                <h2 class="ft-title">🌴 FOCUS TRAINING 🌊</h2>
+                <p class="ft-subtitle">Practice your weak words before hitting the beach!</p>
+                <div class="ft-progress">
+                    Word <span id="ft-current">1</span> of <span id="ft-total">3</span>
+                </div>
+                <div id="ft-word" class="ft-word-display">—</div>
+                <input type="text" id="ft-answer" placeholder="Translate..." class="ft-input">
+                <div id="ft-feedback" class="ft-feedback-text"></div>
+                <button id="ft-submit-btn" class="ft-btn">CHECK</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div id="game-over" class="game-over hidden">
+        <div class="game-over-content">
+            <h2>GAME OVER</h2>
+            <p>Too many mistakes!</p>
+            <p>Your score: <span id="final-score">0</span></p>
+            <div id="focus-words-feedback" style="margin-top:15px; text-align:left;"></div>
+            <button id="try-again-btn" class="btn">TRY AGAIN</button>
+        </div>
+    </div>
+
+
+    <!-- Game logic moved to js/game.js -->
+
+
+    <!-- Leaderboard modal -->
+    <style>
+        @keyframes epicFadeInModal {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px #ffcc00);
+            }
+        }
+
+        #leaderboard-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.82);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #leaderboard-modal {
+            width: 96%;
+            max-width: 900px;
+            /* 1.2 times wider (750 * 1.2 = 900) */
+            background: #003300;
+            border: 8px solid #ffcc00;
+            padding: 24px 28px;
+            border-radius: 12px;
+            color: #ffcc00;
+            font-family: 'Press Start 2P', cursive;
+            text-align: left;
+            max-height: 95vh;
+            /* 1.2 times taller downwards */
+            overflow-y: auto;
+            box-shadow: 0 0 40px #ffcc00, 0 0 80px rgba(255, 204, 0, 0.3);
+            animation: epicFadeInModal 420ms ease-out;
+        }
+
+        /* Scrollbar estilo arcade */
+        #leaderboard-modal::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #leaderboard-modal::-webkit-scrollbar-track {
+            background: #001a00;
+        }
+
+        #leaderboard-modal::-webkit-scrollbar-thumb {
+            background: #ffcc00;
+            border-radius: 5px;
+        }
+
+        #leaderboard-modal h2 {
+            margin: 0 0 20px 0;
+            color: #ffcc00;
+            font-size: 1.2em;
+            text-align: center;
+            text-shadow: 0 0 10px #ffcc00;
+        }
+
+        #leaderboard-list {
+            margin-top: 10px;
+        }
+
+        /* Cada fila de la leaderboard */
+        #leaderboard-list .lb-global-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 10px;
+            border-bottom: 1px solid #004400;
+            font-size: 0.85em;
+            color: #ffffff;
+            transition: background 0.2s;
+            flex-wrap: wrap;
+        }
+
+        #leaderboard-list .lb-global-row:hover {
+            background: rgba(255, 204, 0, 0.06);
+        }
+
+        #leaderboard-list .lb-global-row:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== TOP 1 ROYAL VFX ===== */
+        #leaderboard-list .lb-global-row.top1-row {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,
+                    rgba(20, 10, 0, 0.95) 0%,
+                    rgba(60, 40, 0, 0.95) 25%,
+                    rgba(30, 20, 0, 0.95) 50%,
+                    rgba(60, 40, 0, 0.95) 75%,
+                    rgba(20, 10, 0, 0.95) 100%);
+            border: 3px solid transparent;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            padding: 20px 16px;
+            font-size: 1.05em;
+            /* Borde arcoiris dorado animado */
+            background-clip: padding-box;
+            box-shadow:
+                0 0 0 3px #ffd700,
+                0 0 20px rgba(255, 215, 0, 0.8),
+                0 0 40px rgba(255, 150, 0, 0.5),
+                0 0 70px rgba(255, 80, 0, 0.3),
+                inset 0 0 30px rgba(255, 204, 0, 0.08);
+            animation: royalPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes royalPulse {
+            0% {
+                box-shadow: 0 0 0 3px #ffd700, 0 0 15px rgba(255, 215, 0, 0.7), 0 0 35px rgba(255, 150, 0, 0.4), inset 0 0 20px rgba(255, 204, 0, 0.06);
+            }
+
+            50% {
+                box-shadow: 0 0 0 3px #ffd700, 0 0 35px rgba(255, 215, 0, 1), 0 0 65px rgba(255, 100, 0, 0.7), 0 0 100px rgba(255, 50, 0, 0.3), inset 0 0 40px rgba(255, 204, 0, 0.15);
+            }
+
+            100% {
+                box-shadow: 0 0 0 3px #ffd700, 0 0 15px rgba(255, 215, 0, 0.7), 0 0 35px rgba(255, 150, 0, 0.4), inset 0 0 20px rgba(255, 204, 0, 0.06);
+            }
+        }
+
+        /* Shimmer sweep de oro que cruza la fila */
+        #leaderboard-list .lb-global-row.top1-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.25), rgba(255, 255, 255, 0.15), rgba(255, 215, 0, 0.25), transparent);
+            animation: royalShimmer 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes royalShimmer {
+            0% {
+                left: -100%;
+            }
+
+            60% {
+                left: 150%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        /* Chispas de esquinas */
+        #leaderboard-list .lb-global-row.top1-row::after {
+            content: '✦ ✦ ✦';
+            position: absolute;
+            bottom: 4px;
+            right: 10px;
+            font-size: 0.6em;
+            color: #ffd700;
+            opacity: 0.6;
+            animation: sparkleStars 2s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleStars {
+            from {
+                opacity: 0.3;
+                transform: scale(0.9);
+                color: #ffd700;
+            }
+
+            to {
+                opacity: 0.9;
+                transform: scale(1.1);
+                color: #fff8a0;
+                text-shadow: 0 0 8px #ffd700;
+            }
+        }
+
+        /* Nombre del rey: gradiente dorado animado tipo texto premium */
+        .lb-king-name {
+            background: linear-gradient(90deg, #ffd700, #fff8a0, #ffaa00, #fff8a0, #ffd700);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: royalTextShine 3s linear infinite;
+            filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes royalTextShine {
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 300% center;
+            }
+        }
+
+        /* Score del rey en dorado */
+        .top1-row .lb-global-score {
+            color: #ffd700 !important;
+            font-size: 1.15em !important;
+            text-shadow: 0 0 8px #ffd700, 0 0 15px #ff8800;
+            animation: scoreGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes scoreGlow {
+            from {
+                text-shadow: 0 0 5px #ffd700;
+            }
+
+            to {
+                text-shadow: 0 0 15px #ffd700, 0 0 25px #ff8800;
+            }
+        }
+
+        /* Medalla del rey más grande */
+        .top1-row .lb-global-medal {
+            font-size: 1.8em !important;
+            animation: medalBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes medalBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-4px) scale(1.1);
+            }
+        }
+
+        /* Corona flotante */
+        .top1-crown {
+            display: inline-block;
+            font-size: 1.4em;
+            margin-right: 6px;
+            animation: crownFloat 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 6px #ffd700);
+        }
+
+        @keyframes crownFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(5deg);
+            }
+        }
+
+
+        .lb-global-medal {
+            min-width: 36px;
+            font-size: 1.2em;
+        }
+
+        .lb-global-num {
+            color: #ffcc00;
+            min-width: 30px;
+            font-size: 0.9em;
+        }
+
+        .lb-global-name {
+            flex: 1;
+            word-break: break-word;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lb-global-score {
+            color: #00ff4c;
+            white-space: nowrap;
+        }
+
+        .lb-global-streak {
+            color: #ff9900;
+            font-size: 0.75em;
+            white-space: nowrap;
+        }
+
+        .close-leaderboard {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: #ffcc00;
+            color: #000;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8em;
+            transition: background 0.2s;
+        }
+
+        .close-leaderboard:hover {
+            background: #ff9900;
+        }
+    </style>
+
+    <div id="leaderboard-modal-backdrop" aria-hidden="true">
+        <div id="leaderboard-modal" role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
+            <h2 id="leaderboard-title">🏆 Global Leaderboard</h2>
+            <div id="leaderboard-list">
+                <p>Loading scores...</p>
+            </div>
+            <div style="text-align:center; margin-top:12px;">
+                <span id="close-leaderboard" class="close-leaderboard">Close</span>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard logic now in js/api.js -->
+
+    <!-- =====================================================
+     SISTEMA NUEVO: SHOP, BANNERS, USUARIOS — LOCAL
+     ===================================================== -->
+
+    <!-- CSS nuevos sistemas y estilos completos -->
+    <!-- CSS already loaded in <head> -->
+
+    <!-- HUD top-right: Arcane Coins + Shop -->
+    <div id="shop-hud" style="display:none;">
+        <div class="hud-coins-box">
+            <span class="coin-icon">🪙</span>
+            <span id="hud-coins-val">0</span><span class="hud-coins-text"> Arcane Coins</span>
+        </div>
+        <button class="hud-shop-btn" id="hud-shop-btn">🛒 SHOP</button>
+    </div>
+
+    <!-- SHOP MODAL -->
+    <div id="shop-overlay">
+        <div class="shop-panel">
+            <button class="close-btn" id="close-shop">×</button>
+            <div class="shop-header">
+                <h2>🛒 ARCANE SHOP</h2>
+                <div class="shop-balance">Balance: <span id="shop-bal">0</span> 🪙 Arcane Coins</div>
+            </div>
+
+            <!-- TABS DE NAVEGACIÓN -->
+            <div class="shop-tabs">
+                <div class="shop-tab-wrapper">
+                    <button class="shop-tab active" id="tab-banners">🎖 ESTANDARTES ▾</button>
+                    <div class="shop-submenu">
+                        <div class="shop-submenu-item active" id="submenu-banners" onclick="shopSwitchTab('banners')">🎖
+                            VER ESTANDARTES</div>
+                        <div class="shop-submenu-item" id="submenu-runas" onclick="shopSwitchTab('runas')">🔮 TIENDA DE
+                            RUNAS (COMING SOON)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SECCIÓN: ESTANDARTES ===== -->
+            <div id="shop-section-banners">
+                <!-- Sección de Canje de Códigos Promocionales -->
+                <div class="shop-promo-section"
+                    style="margin: 15px auto; padding: 15px; background: rgba(255,255,255,0.06); border-radius: 8px; border: 2px dashed #ff0099; display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; max-width: 90%;">
+                    <span style="font-size: 0.6em; color: #ff0099; text-shadow: 0 0 5px #ff0099;">✨ ¿TIENES UN CÓDIGO
+                        SECRETO? ✨</span>
+                    <div style="display: flex; width: 100%; gap: 10px; justify-content: center; align-items: center;">
+                        <input type="text" id="promo-code-input" placeholder="CÓDIGO..."
+                            style="font-family:'Press Start 2P', cursive; font-size:0.65em; padding:10px; width:60%; background:#000; border:2px solid #ffcc00; color:#fff; border-radius:6px; text-align:center; text-transform:uppercase;">
+                        <button id="promo-code-btn"
+                            style="font-family:'Press Start 2P', cursive; font-size:0.65em; padding:10px 15px; background:linear-gradient(135deg, #ff0099, #ffcc00); color:#000; border:2px solid #fff; border-radius:6px; cursor:pointer; font-weight:bold; transition:all 0.2s;">CANJEAR</button>
+                    </div>
+                    <div id="promo-code-feedback"
+                        style="font-size: 0.5em; min-height: 12px; font-weight: bold; text-align: center;"></div>
+                </div>
+                <div class="shop-grid" id="shop-grid"></div>
+            </div>
+
+            <!-- ===== SECCIÓN: RUNAS (COMING SOON) ===== -->
+            <div id="shop-section-runas" style="display:none;">
+                <div class="runes-coming-soon">
+                    <div class="runes-glyph">𝕽</div>
+                    <h3 class="runes-title">TIENDA DE RUNAS</h3>
+                    <div class="runes-badge">✦ COMING SOON ✦</div>
+                    <p class="runes-desc">Las antiguas runas del Arcano están siendo descifradas.<br>Pronto podrás
+                        desbloquear poderes místicos y habilidades especiales.</p>
+                    <div class="runes-preview-grid">
+                        <div class="rune-placeholder">᚜ ?</div>
+                        <div class="rune-placeholder">ᚠ ?</div>
+                        <div class="rune-placeholder">ᚢ ?</div>
+                        <div class="rune-placeholder">ᚦ ?</div>
+                        <div class="rune-placeholder">ᚨ ?</div>
+                        <div class="rune-placeholder">ᚱ ?</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LEADERBOARD LOCAL MODAL -->
+    <div id="lb-overlay">
+        <div class="lb-panel">
+            <button class="close-btn" id="close-lb">×</button>
+            <h2>🏆 LEADERBOARD LOCAL</h2>
+            <div id="lb-list"></div>
+        </div>
+    </div>
+
+    <!-- Preview de usuario en el menú -->
+    <style>
+        #user-preview {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px dashed #ffcc00;
+            border-radius: 5px;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 0.7em;
+            text-align: left;
+        }
+
+        #user-preview .stat {
+            margin: 3px 0;
+        }
+    </style>
+
+    <!-- Módulos JS completos para que el juego funcione -->
+    <script src="js/config.js"></script>
+    <script src="data/students.js"></script>
+    <script src="data/banners.js"></script>
+    <script src="data/words.js"></script>
+    
+    <script src="js/security.js"></script>
+    <script src="js/codes.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/users.js"></script>
+    
+    <script src="js/effects.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/leaderboard.js"></script>
+    
+    <script src="js/game.js"></script>
+
+    <!-- Lógica de Tabs del Shop + Música de Lobby -->
+    <!-- Shop Tabs and Music toggle moved to js/shop.js -->
+
+    
+
+    <!-- Integration patches consolidated directly in js/game.js, js/users.js -->
+
+
+    
+
+    <!-- UX/VFX logic now handled by js/effects.js, js/users.js -->
+
+</body>
+
+</html>

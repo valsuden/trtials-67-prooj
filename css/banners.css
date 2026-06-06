@@ -1,0 +1,563 @@
+/* =============================================
+   BANNERS CSS — Trials of Mastery
+   VFX para los 24 banners
+   ============================================= */
+
+/* Base: todos los banners */
+[class^="bn-"],
+[class*=" bn-"] {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+/* LAVA CORE */
+.bn-lava {
+    background: linear-gradient(90deg, #330000, #cc3300, #ff6600, #cc3300, #330000);
+    background-size: 200% 100%;
+    border: 2px solid #ff6600;
+    color: #fff !important;
+    text-shadow: 0 0 5px #000;
+    animation: lavaFlow 3s linear infinite;
+    box-shadow: 0 0 10px #ff3300;
+}
+
+@keyframes lavaFlow {
+    0% {
+        background-position: 0%
+    }
+
+    100% {
+        background-position: 200%
+    }
+}
+
+/* SKY TEMPLE */
+.bn-sky {
+    background: linear-gradient(90deg, #87ceeb, #fff, #e0f0ff);
+    border: 2px solid #87ceeb;
+    color: #003 !important;
+    box-shadow: 0 0 12px #87ceeb;
+    animation: skyPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes skyPulse {
+    from {
+        filter: brightness(1)
+    }
+
+    to {
+        filter: brightness(1.2)
+    }
+}
+
+/* NEO STREET */
+.bn-neo {
+    background: #111;
+    border-left: 4px solid #ff0099;
+    border-right: 4px solid #00ffcc;
+    color: #fff !important;
+    text-shadow: 2px 2px 0 #ff0099, -1px -1px 0 #00ffcc;
+}
+
+/* FROZEN CROWN */
+.bn-ice {
+    background: rgba(175, 238, 238, 0.2);
+    border: 2px solid #afeeee;
+    color: #e0ffff !important;
+    box-shadow: inset 0 0 10px #fff, 0 0 10px #afeeee;
+}
+
+/* VOID ECLIPSE */
+.bn-void {
+    background: radial-gradient(circle, #000 30%, #300050 100%);
+    border: 1px solid #8a2be2;
+    color: #dda0dd !important;
+    animation: voidPulse 2s infinite;
+    box-shadow: 0 0 15px #4b0082;
+}
+
+@keyframes voidPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 15px #4b0082
+    }
+
+    50% {
+        box-shadow: 0 0 30px #9400d3
+    }
+}
+
+/* HACKER MATRIX */
+.bn-matrix {
+    background: #000;
+    color: #00ff00 !important;
+    font-family: monospace;
+    border: 1px dashed #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+    position: relative;
+    overflow: hidden;
+}
+
+.bn-matrix::before {
+    content: '01100110010011001';
+    position: absolute;
+    top: -5px;
+    left: 0;
+    right: 0;
+    font-size: 0.4em;
+    color: rgba(0, 255, 0, 0.2);
+    letter-spacing: 2px;
+    pointer-events: none;
+    animation: matrixDrop 2s linear infinite;
+}
+
+@keyframes matrixDrop {
+    from {
+        transform: translateY(-100%)
+    }
+
+    to {
+        transform: translateY(200%)
+    }
+}
+
+/* TOXIC REACTOR */
+.bn-toxic {
+    background: #002200;
+    border: 2px solid #00ff00;
+    color: #00ff00 !important;
+    box-shadow: 0 0 12px #00ff00, inset 0 0 5px #003300;
+    animation: toxicGlow 2s infinite alternate;
+}
+
+@keyframes toxicGlow {
+    from {
+        box-shadow: 0 0 8px #00ff00
+    }
+
+    to {
+        box-shadow: 0 0 20px #00ff00
+    }
+}
+
+/* CRIMSON SAMURAI */
+.bn-samurai {
+    background: linear-gradient(90deg, #1a0000, #660000, #1a0000);
+    border-left: 5px solid #ff0000;
+    color: #ff9999 !important;
+    font-style: italic;
+    box-shadow: 0 0 8px #ff0000;
+}
+
+/* DEEP OCEAN */
+.bn-ocean {
+    background: linear-gradient(180deg, #000033, #000066);
+    border-bottom: 3px solid #00ffff;
+    color: #ccffff !important;
+    box-shadow: 0 0 10px #006666;
+}
+
+/* PHANTOM PULSE */
+.bn-phantom {
+    background: rgba(20, 0, 30, 0.8);
+    border: 1px solid #555;
+    color: #ddd !important;
+    text-shadow: 0 0 8px #fff;
+    animation: ghostFade 2s ease-in-out infinite alternate;
+}
+
+@keyframes ghostFade {
+    from {
+        opacity: 0.6
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+/* CELESTIAL KING */
+.bn-divine {
+    background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
+    color: #000 !important;
+    font-weight: 900;
+    box-shadow: 0 0 20px #ffd700;
+    animation: divineShine 2s ease-in-out infinite alternate;
+}
+
+@keyframes divineShine {
+    from {
+        box-shadow: 0 0 10px #ffd700
+    }
+
+    to {
+        box-shadow: 0 0 30px #fff, 0 0 50px #ffd700
+    }
+}
+
+/* DIGITAL OVERDRIVE */
+.bn-digital {
+    background: #000;
+    border: 2px solid #fff;
+    color: #fff !important;
+    animation: rgbBorder 1.5s linear infinite;
+}
+
+@keyframes rgbBorder {
+    0% {
+        border-color: red;
+        box-shadow: 0 0 8px red
+    }
+
+    33% {
+        border-color: lime;
+        box-shadow: 0 0 8px lime
+    }
+
+    66% {
+        border-color: #00f;
+        box-shadow: 0 0 8px #00f
+    }
+
+    100% {
+        border-color: red;
+        box-shadow: 0 0 8px red
+    }
+}
+
+/* BLOOD MOON */
+.bn-moon {
+    background: radial-gradient(circle at top, #880000, #000);
+    border: 1px solid #500;
+    color: #f55 !important;
+    box-shadow: 0 0 10px #880000;
+}
+
+/* NEON VELOCITY */
+.bn-velocity {
+    background: #000;
+    border-right: 8px solid #00ffff;
+    border-left: 1px solid #00ffff;
+    color: #fff !important;
+    text-shadow: 2px 0 5px #0ff;
+    box-shadow: 4px 0 10px #00ffff;
+}
+
+/* ANCIENT RUNE */
+.bn-rune {
+    background: #2a1a00;
+    border: 2px solid #cdaa7d;
+    color: #cdaa7d !important;
+    text-shadow: 0 0 5px #cdaa7d;
+}
+
+/* THUNDER RIFT */
+.bn-thunder {
+    background: radial-gradient(circle, #001133, #000022);
+    border-top: 3px solid #00ccff;
+    border-bottom: 3px solid #0066ff;
+    color: #ccffff !important;
+    animation: thunderFlash 3s infinite;
+}
+
+@keyframes thunderFlash {
+
+    0%,
+    95%,
+    100% {
+        box-shadow: 0 0 5px #00ccff
+    }
+
+    97% {
+        box-shadow: 0 0 20px #fff, 0 0 30px #00ccff
+    }
+}
+
+/* CRYSTAL PEAK */
+.bn-crystal {
+    background: linear-gradient(135deg, rgba(200, 240, 255, 0.3), rgba(255, 255, 255, 0.1));
+    border: 2px solid rgba(200, 240, 255, 0.8);
+    color: #e8f4ff !important;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(2px);
+}
+
+/* SOLAR BLOOM */
+.bn-solar {
+    background: linear-gradient(90deg, #ff6600, #ffcc00, #ff6600);
+    border: 2px solid #ffcc00;
+    color: #000 !important;
+    box-shadow: 0 0 10px #ffcc00;
+}
+
+/* MOONLIGHT GUARD */
+.bn-moonlight {
+    background: linear-gradient(180deg, #1a1a2e, #16213e);
+    border: 1px solid #c0c0c0;
+    color: #e0e0ff !important;
+    box-shadow: 0 0 8px #c0c0c0;
+}
+
+/* URBAN SHADOW */
+.bn-urban {
+    background: #222;
+    border-left: 4px solid #888;
+    color: #bbb !important;
+}
+
+/* GALACTIC ARC */
+.bn-galactic {
+    background: radial-gradient(ellipse, #0d0d2b, #000);
+    border: 2px solid #6600cc;
+    color: #cc99ff !important;
+    box-shadow: 0 0 15px #6600cc;
+    animation: galacticPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes galacticPulse {
+    from {
+        box-shadow: 0 0 10px #6600cc
+    }
+
+    to {
+        box-shadow: 0 0 25px #cc00ff
+    }
+}
+
+/* PORTAL FLUX */
+.bn-portal {
+    background: conic-gradient(#0066ff, #cc00ff, #00ffcc, #0066ff);
+    background-size: 100%;
+    border: 2px solid #cc00ff;
+    color: #fff !important;
+    text-shadow: 0 0 5px #000;
+    animation: portalSpin 3s linear infinite;
+}
+
+@keyframes portalSpin {
+    to {
+        filter: hue-rotate(360deg)
+    }
+}
+
+/* ROYAL ZENITH */
+.bn-royal {
+    background: linear-gradient(90deg, #1a0a00, #ffd700, #fff8dc, #ffd700, #1a0a00);
+    background-size: 200% 100%;
+    animation: royalGold 3s linear infinite;
+    border: 3px solid #ffd700;
+    color: #000 !important;
+    font-weight: 900;
+    box-shadow: 0 0 20px #ffd700, inset 0 0 10px rgba(255, 255, 200, 0.5);
+}
+
+@keyframes royalGold {
+    0% {
+        background-position: 0%
+    }
+
+    100% {
+        background-position: 200%
+    }
+}
+
+/* NIGHT CIRCUIT */
+.bn-circuit {
+    background: #030312;
+    border: 1px solid #333;
+    color: #0f0 !important;
+    position: relative;
+}
+
+.bn-circuit::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(0, 255, 0, 0.05) 9px);
+    pointer-events: none;
+}
+
+/* ---- RAREZA: clase de texto ---- */
+.rarity-tag {
+    font-size: 0.65em;
+    font-weight: bold;
+}
+
+.rarity-Common {
+    color: #aaa;
+}
+
+.rarity-Uncommon {
+    color: #00ff4c;
+}
+
+.rarity-Rare {
+    color: #00ccff;
+}
+
+.rarity-Epic {
+    color: #aa00ff;
+}
+
+.rarity-Legendary {
+    color: #ff6600;
+}
+
+.rarity-Mythic {
+    color: #ff2222;
+}
+
+.rarity-Secret {
+    background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbowText 2s linear infinite;
+}
+
+.rarity-Divine {
+    color: #ffd700;
+    text-shadow: 0 0 5px #ffd700;
+}
+
+@keyframes rainbowText {
+    to {
+        background-position: 200% center
+    }
+}
+
+/* 👑 REY SUPREMO - TOP 1 AURA */
+.top1-aura {
+    position: relative;
+    display: inline-block;
+    font-weight: 900;
+    text-transform: uppercase;
+
+    /* Texto con degradado de oro real */
+    background: linear-gradient(135deg, #fff3a1 0%, #ffd700 50%, #ff8800 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Súper brillo místico */
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 25px rgba(255, 102, 0, 0.5));
+
+    animation: goldShine 3s linear infinite, top1Pulse 2s ease-in-out infinite alternate;
+}
+
+/* Corona flotante con destello */
+.top1-aura::before {
+    content: '👑';
+    margin-right: 8px;
+    display: inline-block;
+    font-size: 1.2em;
+    filter: drop-shadow(0 0 10px #ffd700);
+    animation: crownFloat 2s ease-in-out infinite;
+}
+
+/* Aura de fuego dorado detrás del texto */
+.top1-aura::after {
+    content: '';
+    position: absolute;
+    inset: -5px -15px;
+    z-index: -1;
+    background: radial-gradient(circle, rgba(255, 102, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 60%, transparent 100%);
+    filter: blur(8px);
+    animation: fireAura 1.5s ease-in-out infinite alternate;
+}
+
+/* --- ANIMACIONES DE DIOS --- */
+
+/* Movimiento fluido del degradado dorado */
+@keyframes goldShine {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Pulso de poder del aura */
+@keyframes top1Pulse {
+    from {
+        transform: scale(1);
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+    }
+
+    to {
+        transform: scale(1.03);
+        filter: drop-shadow(0 0 25px rgba(255, 102, 0, 0.9));
+    }
+}
+
+/* Flote real de la corona */
+@keyframes crownFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5px);
+    }
+
+    50% {
+        transform: translateY(-6px) rotate(5px);
+    }
+}
+
+/* Fuego místico oscilante */
+@keyframes fireAura {
+    0% {
+        opacity: 0.6;
+        transform: scale(0.9) skewX(-3deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.1) skewX(3deg);
+    }
+}
+
+/* ============================================================
+   THEMED LEADERBOARD ROWS (FULL CARD FORMAT)
+   ============================================================ */
+.lb-row[class*="bn-"],
+.lb-row[class*=" bn-"],
+.lb-global-row[class*="bn-"],
+.lb-global-row[class*=" bn-"] {
+    display: flex !important;
+    padding: 16px 12px !important;
+    border-radius: 8px !important;
+    margin-bottom: 10px !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    box-sizing: border-box !important;
+    animation-duration: 2s !important;
+}
+
+/* Ensure row text inherits banner's custom theme color and text-shadow */
+.lb-row[class*="bn-"] .lb-name,
+.lb-row[class*="bn-"] .lb-rank,
+.lb-row[class*="bn-"] .lb-score,
+.lb-global-row[class*="bn-"] .lb-global-name,
+.lb-global-row[class*="bn-"] .lb-global-medal,
+.lb-global-row[class*="bn-"] .lb-global-num,
+.lb-global-row[class*="bn-"] .lb-global-score,
+.lb-global-row[class*="bn-"] .lb-global-streak {
+    color: inherit !important;
+    text-shadow: inherit !important;
+}
